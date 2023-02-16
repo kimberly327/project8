@@ -15,6 +15,7 @@ Resources:
         StockSellerFunctionArn: !GetAtt StockSellerFunction.Arn
         StockBuyerFunctionArn: !GetAtt StockBuyerFunction.Arn
         CancelOperationFunctionArn: !GetAtt CancelOperationFunction.Arn
+        CancelOperationFunctionArn: !GetAtt CancelTransactionFunction.Arn
         DDBPutItem: !Sub arn:${AWS::Partition}:states:::dynamodb:putItem
         DDBTable: !Ref TransactionTable
       Events:
@@ -33,6 +34,8 @@ Resources:
           FunctionName: !Ref StockBuyerFunction
       - LambdaInvokePolicy:
           FunctionName: !Ref CancelOperationFunction
+      - LambdaInvokePolicy:
+          FunctionName: !Ref CancelTransactionFunction
       - DynamoDBWritePolicy:
           TableName: !Ref TransactionTable
 
@@ -67,6 +70,15 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: functions/cancel-operation/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+  
+  CancelTransactionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/cancel-transaction/
       Handler: app.lambdaHandler
       Runtime: nodejs18.x
       Architectures:

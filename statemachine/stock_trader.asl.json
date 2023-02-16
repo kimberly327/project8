@@ -67,6 +67,21 @@
             ],
             "Next": "Record Transaction"
         },
+        "Cancel Transaction": {
+            "Type": "Task",
+            "Resource": "${CancelTransactionFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1
+                }
+            ],
+            "Next": "Cancel Operation"
+        },
         "Cancel Operation": {
             "Type": "Task",
             "Resource": "${CancelOperationFunctionArn}",
@@ -87,6 +102,9 @@
             "Resource": "${DDBPutItem}",
             "Parameters": {
                 "TableName": "${DDBTable}",
+                "ConditionExpression": "#Quantity > :value",
+                "ExpressionAttributeNames": { "#Quantity" : "Quantity" },
+                "ExpressionAttributeValues": { ":value" : "5" },
                 "Item": {
                     "Id": {
                         "S.$": "$.id"
@@ -105,16 +123,6 @@
                     }
                 }
             },
-            "Retry": [
-                {
-                    "ErrorEquals": [
-                        "States.TaskFailed"
-                    ],
-                    "IntervalSeconds": 20,
-                    "MaxAttempts": 5,
-                    "BackoffRate": 10
-                }
-            ],
             "End": true
         }
     }
