@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "StepFunctionWithSagaPattern"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-u0fscug1va48"
+s3_prefix = "StepFunctionWithSagaPattern"
+region = "eu-west-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []
