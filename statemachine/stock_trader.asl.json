@@ -41,6 +41,15 @@
                     "BackoffRate": 1
                 }
             ],
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "ResultPath": "$.error-info",
+                    "Next": "Cancel Operation"
+                }
+            ],
             "Next": "Record Transaction"
         },
         "Buy Stock": {
@@ -59,7 +68,7 @@
             "Catch": [
                 {
                     "ErrorEquals": [
-                        "BuyOperationError"
+                        "States.TaskFailed"
                     ],
                     "ResultPath": "$.error-info",
                     "Next": "Cancel Operation"
@@ -104,7 +113,7 @@
                 "TableName": "${DDBTable}",
                 "ConditionExpression": "#Quantity > :value",
                 "ExpressionAttributeNames": { "#Quantity" : "Quantity" },
-                "ExpressionAttributeValues": { ":value" : "5" },
+                "ExpressionAttributeValues": {":value" : { "N" : "5" }},
                 "Item": {
                     "Id": {
                         "S.$": "$.id"
@@ -123,6 +132,15 @@
                     }
                 }
             },
+            "Catch": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "ResultPath": "$.error-info",
+                    "Next": "Cancel Transaction"
+                }
+            ],
             "End": true
         }
     }

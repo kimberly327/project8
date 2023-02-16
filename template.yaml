@@ -15,7 +15,7 @@ Resources:
         StockSellerFunctionArn: !GetAtt StockSellerFunction.Arn
         StockBuyerFunctionArn: !GetAtt StockBuyerFunction.Arn
         CancelOperationFunctionArn: !GetAtt CancelOperationFunction.Arn
-        CancelOperationFunctionArn: !GetAtt CancelTransactionFunction.Arn
+        CancelTransactionFunctionArn: !GetAtt CancelTransactionFunction.Arn
         DDBPutItem: !Sub arn:${AWS::Partition}:states:::dynamodb:putItem
         DDBTable: !Ref TransactionTable
       Events:

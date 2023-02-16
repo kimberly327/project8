@@ -19,18 +19,16 @@ export const lambdaHandler = async (event, context) => {
     const stock_price = event["stock_price"];
     var date = new Date();
     // Mocked result of a stock buying transaction
-  //  try{
-  //      let transaction_result = {
-  //          'id': randomBytes(16).toString("hex"), // Unique ID for the transaction
-  //          'price': stock_price.toString(), // Price of each share
-  //          'type': "buy", // Type of transaction(buy/ sell)
-  //          'qty': getRandomInt(10).toString(),  // Number of shares bought / sold(We are mocking this as a random integer between 1 and 10)
-  //          'timestamp': date.toISOString(),  // Timestamp of the when the transaction was completed
-  //      }
-  //      return transaction_result
-  //  }catch{
-  //      return Error("BuyOperationError")
-  //  }
-
-    return Error("BuyOperationError")
+    try{
+        let transaction_result = {
+            'id': randomBytes(16).toString("hex"), // Unique ID for the transaction
+            'price': stock_price.toString(), // Price of each share
+            'type': "buy", // Type of transaction(buy/ sell)
+            'qty': getRandomInt(10).toString(),  // Number of shares bought / sold(We are mocking this as a random integer between 1 and 10)
+            'timestamp': date.toISOString(),  // Timestamp of the when the transaction was completed
+        }
+        return transaction_result
+    }catch{
+        return Error("BuyOperationError")
+    }
 };
